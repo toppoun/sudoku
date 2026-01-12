@@ -112,6 +112,28 @@ def find_board(img):
             
     return board_cnt
 
+#数字を真ん中にする
+def center_digit(img):
+    coords = np.column_stack(np.where(img > 0))
+    if len(coords) == 0:
+        return img
+
+    y_min, x_min = coords.min(axis=0)
+    y_max, x_max = coords.max(axis=0)
+
+    digit = img[y_min:y_max+1, x_min:x_max+1]
+
+    h, w = img.shape
+    dh, dw = digit.shape
+
+    canvas = np.zeros_like(img)
+
+    y0 = (h - dh) // 2
+    x0 = (w - dw) // 2
+
+    canvas[y0:y0+dh, x0:x0+dw] = digit
+    return canvas
+
 def read_sudoku(image_path, i = None):
     img = cv2.imread(str(image_path))
     if img is None:
@@ -167,26 +189,6 @@ def recog_by_warped(warped, i = None):
                 margin:cw-margin
             ]
 
-            def center_digit(img):
-                coords = np.column_stack(np.where(img > 0))
-                if len(coords) == 0:
-                    return img
-
-                y_min, x_min = coords.min(axis=0)
-                y_max, x_max = coords.max(axis=0)
-
-                digit = img[y_min:y_max+1, x_min:x_max+1]
-
-                h, w = img.shape
-                dh, dw = digit.shape
-
-                canvas = np.zeros_like(img)
-
-                y0 = (h - dh) // 2
-                x0 = (w - dw) // 2
-
-                canvas[y0:y0+dh, x0:x0+dw] = digit
-                return canvas
             
             cell_inner = center_digit(cell_inner)
 

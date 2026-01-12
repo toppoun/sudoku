@@ -97,13 +97,15 @@ while True:
     if last_sudoku is not None and board_cnt is not None:
         draw_ar(display, board_cnt, last_sudoku, initial_place)
 
-    cv2.imshow("Sudoku AR", display)
+    cv2.imshow("frame", display)
 
     key = cv2.waitKey(1) & 0xFF
     if key == ord(' '):
         recognize = True
     if key == ord("s"):
         solve_console(last_sudoku)
+    if key == ord("c"):
+        last_sudoku = None
     if key == ord('q'):
         break
 

@@ -2,6 +2,10 @@ from tkinter import Tk,Canvas
 
 from config import *
 
+"""
+数独のロジックやmainで必要な関数
+"""
+
 tk=Tk()
 canvas = Canvas(tk, width=500, height=500, bg="White")
 canvas.pack()

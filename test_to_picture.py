@@ -6,6 +6,11 @@ from pathlib import Path
 from utils import *
 from config import *
 
+"""
+テキストデータの盤面をtkinterで描画しそれを保存する。
+手元に試したい数独のテキストデータがある場合はこれを使うと簡単にできる。
+"""
+
 
 def save_canvas_png(canvas, filename="sudoku.png"):
     canvas.update()

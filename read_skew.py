@@ -13,7 +13,7 @@ pytesseract.pytesseract.tesseract_cmd = (
 
 
 def order_points(pts):
-    """座標を [左上, 右上, 右下, 左下] の順に並べ替える関数"""
+    #座標を [左上, 右上, 右下, 左下] の順に並べ替える
     rect = np.zeros((4, 2), dtype="float32")
     s = pts.sum(axis=1)
     rect[0] = pts[np.argmin(s)]
@@ -24,7 +24,7 @@ def order_points(pts):
     return rect
 
 def four_point_transform(image, pts):
-    """透視変換を行って画像を正方形に補正する関数"""
+    #透視変換を行って画像を正方形にする
     rect = order_points(pts)
     (tl, tr, br, bl) = rect
 
@@ -50,12 +50,12 @@ def four_point_transform(image, pts):
 
 
 def pre_process_image(img):
-    """盤面検出用の前処理"""
+    #盤面検出用の前処理
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # ノイズ除去（強めにかける）
 
     blur = cv2.medianBlur(gray, 7)
-    # 二値化（適応的閾値処理）
+    # 二値化
     thresh = cv2.adaptiveThreshold(
         blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
         cv2.THRESH_BINARY, 11, 2
@@ -65,7 +65,7 @@ def pre_process_image(img):
     return thresh
 
 def find_board(img):
-    """画像から数独の盤面（最大の四角形）を見つける"""
+    #画像から数独の盤面（最大の四角形）を見つける
     processed = pre_process_image(img)
     contours, _ = cv2.findContours(processed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     
@@ -104,6 +104,8 @@ def read_sudoku(image_path):
     # 2. 透視変換（グレー画像に対して行う）
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     warped = four_point_transform(gray, board_cnt.reshape(4, 2))
+
+    #2値化
     _,warped = cv2.threshold(warped, 0, 255, cv2.THRESH_OTSU)
 
 

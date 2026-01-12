@@ -6,10 +6,6 @@ import pytesseract
 from utils import *
 from config import *
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
-
 
 
 # 数独読み取り
@@ -106,7 +102,7 @@ def read_sudoku(image_path):
 failed = {i: 0 for i in range(1,10)}
 
 ##########フォント選択##########
-PICT_PATH = PICT_PATH_TIMES
+PICT_PATH = PICT_PATH_COURIER
 
 ac = 0
 cnt = 0

@@ -7,10 +7,6 @@ from config import *
 from utils import *
 
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
-
 
 def order_points(pts):
     #座標を [左上, 右上, 右下, 左下] の順に並べ替える
@@ -113,6 +109,7 @@ def read_sudoku(image_path):
     if(DEBUG):
         cv2.imwrite(f"debug/warped_{i}.png", warped)
 
+def recog_by_warped(warped):
     board = warped
     
     H, W = board.shape
@@ -163,38 +160,38 @@ def read_sudoku(image_path):
 
     return sudoku
 
-ac = 0
-cnt = 0
-failed = {i: 0 for i in range(11)}
-for i in range(3):
-    if i == 50 or i == 51:
-        continue
+# ac = 0
+# cnt = 0
+# failed = {i: 0 for i in range(11)}
+# for i in range(6):
+#     if i == 50 or i == 51:
+#         continue
 
-    sudoku_pic = read_sudoku(SKEW_PATH / f"sudoku-data{i}.png")
-    sudoku_text = import_sudoku_text(TEXT_PATH / f"sudoku-data{i}.txt")
+#     sudoku_pic = read_sudoku(SKEW_PATH / f"sudoku-data{i}.png")
+#     sudoku_text = import_sudoku_text(TEXT_PATH / f"sudoku-data{i}.txt")
 
-    if(sudoku_pic == sudoku_text):
-        ac += 1
-        print(f"complete {i}")
-    else:
-        for l in range(9):
-            for c in range(9):
-                if(sudoku_pic[l][c] != sudoku_text[l][c]):
-                    if(sudoku_pic[l][c] not in failed):
-                        failed[10] += 1
-                    else:
-                        failed[sudoku_text[l][c]] += 1
-                    print(f"missed: {sudoku_pic[l][c]} at{i,l,c} actual: {sudoku_text[l][c]}")
+#     if(sudoku_pic == sudoku_text):
+#         ac += 1
+#         print(f"complete {i}")
+#     else:
+#         for l in range(9):
+#             for c in range(9):
+#                 if(sudoku_pic[l][c] != sudoku_text[l][c]):
+#                     if(sudoku_pic[l][c] not in failed):
+#                         failed[10] += 1
+#                     else:
+#                         failed[sudoku_text[l][c]] += 1
+#                         print(f"missed: {sudoku_pic[l][c]} at{i,l,c} actual: {sudoku_text[l][c]}")
         
-    cnt += 1
-    print(f"{i}: Done... {ac}")
-    print(failed)
+#     cnt += 1
+#     print(f"{i}: Done... {ac}")
+    # print(failed)
     # print(failed)
 
 
-    print(sudoku_pic)
-    print(sudoku_text)
+    # print(sudoku_pic)
+    # print(sudoku_text)
 
 
 
-print(f"{ac}/{cnt}") 
+# print(f"{ac}/{cnt}") 

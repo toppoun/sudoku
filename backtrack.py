@@ -51,19 +51,19 @@ def check(sudoku, i, j, value):
 
 
 def solve_console(sudoku): #バックトラック部分処理
-    i,j=find_zero(sudoku)
-    if i==-1:
-        return True #終了条件
+    i, j = find_zero(sudoku)
+    if i ==  -1:
+        return True
     
-    for value in range(1,10):
-        if check(sudoku,i,j,value):
+    for value in range(1, 10):
+        if check(sudoku, i, j, value):
             sudoku[i][j]=value
 
             if solve_console(sudoku): #次のマスを埋める
 
                 return True
             
-        sudoku[i][j]=0
+        sudoku[i][j] = 0
 
     
     return False
@@ -102,9 +102,9 @@ answer = {}
 #         solve(sudoku_raw)
 # answer[46] = sudoku_raw
 
-print("finish")
-end = time.time()
-time_diff = end - start
-print(time_diff)
+# print("finish")
+# end = time.time()
+# time_diff = end - start
+# print(time_diff)
 
 #１回計測 127.028987884521

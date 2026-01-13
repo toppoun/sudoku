@@ -6,10 +6,10 @@ import pytesseract
 from config import *
 from utils import *
 
-
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
+"""
+紙に書かれた数独の盤面を読み取るための関数。
+綺麗な静止画とは違ってまず盤面を正方形に直してからやる必要がある。
+"""
 
 
 def order_points(pts):
@@ -64,7 +64,29 @@ def pre_process_image(img):
     thresh = cv2.bitwise_not(thresh)
     return thresh
 
+
+def is_square_like(pts, tol=0.2):
+    #正方形っぽくないやつを除外する
+    def dist(a, b):
+        return np.linalg.norm(a - b)
+
+    tl, tr, br, bl = pts
+    edges = [
+        dist(tl, tr),
+        dist(tr, br),
+        dist(br, bl),
+        dist(bl, tl)
+    ]
+
+    max_len = max(edges)
+    min_len = min(edges)
+
+    # 辺の長さが±20%以内ならOK
+    return min_len / max_len > (1 - tol)
+
+
 def find_board(img):
+    area_min = 50000
     #画像から数独の盤面（最大の四角形）を見つける
     processed = pre_process_image(img)
     contours, _ = cv2.findContours(processed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -78,15 +100,41 @@ def find_board(img):
         peri = cv2.arcLength(c, True)
         # 輪郭を近似（頂点数を減らす）
         approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+
+        
         
         # 点が4つ（四角形）であれば、それが盤面である可能性が高い
         if len(approx) == 4:
-            board_cnt = approx
-            break
+            rect = order_points(approx.reshape(4,2))
+            if is_square_like(rect) and cv2.contourArea(rect) > area_min:
+                board_cnt = approx
+                break
             
     return board_cnt
 
-def read_sudoku(image_path):
+#数字を真ん中にする
+def center_digit(img):
+    coords = np.column_stack(np.where(img > 0))
+    if len(coords) == 0:
+        return img
+
+    y_min, x_min = coords.min(axis=0)
+    y_max, x_max = coords.max(axis=0)
+
+    digit = img[y_min:y_max+1, x_min:x_max+1]
+
+    h, w = img.shape
+    dh, dw = digit.shape
+
+    canvas = np.zeros_like(img)
+
+    y0 = (h - dh) // 2
+    x0 = (w - dw) // 2
+
+    canvas[y0:y0+dh, x0:x0+dw] = digit
+    return canvas
+
+def read_sudoku(image_path, i = None):
     img = cv2.imread(str(image_path))
     if img is None:
         return [[0]*9 for _ in range(9)]
@@ -106,13 +154,19 @@ def read_sudoku(image_path):
     warped = four_point_transform(gray, board_cnt.reshape(4, 2))
 
     #2値化
-    _,warped = cv2.threshold(warped, 0, 255, cv2.THRESH_OTSU)
+    
 
 
 
     if(DEBUG):
         cv2.imwrite(f"debug/warped_{i}.png", warped)
+    
+    return warped
 
+    
+
+
+def recog_by_warped(warped, i = None):
     board = warped
     
     H, W = board.shape
@@ -129,23 +183,21 @@ def read_sudoku(image_path):
             
             # --- 余白カット ---
             ch, cw = cell.shape
-            margin = int(min(ch, cw) * 0.1)
+            margin = int(min(ch, cw) * 0.15)
             cell_inner = cell[
                 margin:ch-margin,
                 margin:cw-margin
             ]
 
-            # --- 数字を太らせる ---
-            cell_inner = cv2.bitwise_not(cell_inner)
-            kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-            cell_inner = cv2.dilate(cell_inner, kernel, iterations=2)
-            cell_inner = cv2.resize(cell_inner, (32, 32))
-            cell_inner = cv2.bitwise_not(cell_inner)
+            
+            cell_inner = center_digit(cell_inner)
 
-            if(DEBUG):
-                cv2.imwrite(f"debug/{i}_{r}_{c}.png", cell_inner)
+            cell_inner = cv2.adaptiveThreshold(cell_inner, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+            cell_inner = cv2.resize(cell_inner, (64, 64))
 
-            if cv2.countNonZero(cell_inner) < 50:
+            # cell_inner = cv2.bitwise_not(cell_inner)
+            ratio = cv2.countNonZero(cell_inner) / cell_inner.size
+            if ratio < 0.003:
                 sudoku[r][c] = 0
                 continue
 
@@ -154,47 +206,30 @@ def read_sudoku(image_path):
                 config="--psm 10 -c tessedit_char_whitelist=123456789"
             )
 
-            text = text.strip()
-            if(text.isdigit()):
-                sudoku[r][c] = int(text)
-            else:
-                sudoku[r][c] = 0
+            text = int(text) if text.strip().isdigit() else 0
+            if(text > 9 or text == 0):
+                cell_inner = cv2.bitwise_not(cell_inner)
+                kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2))
+                cell_inner_b = cv2.dilate(cell_inner, kernel, iterations=2)
+                cell_inner_b = cv2.bitwise_not(cell_inner_b)
+                text = pytesseract.image_to_string(
+                    cell_inner_b,
+                    config="--psm 10 -c tessedit_char_whitelist=123456789")
+                
+                text = int(text) if text.strip().isdigit() else 0
+                if(text > 9 or text == 0):
+                    cell_inner_e = cv2.erode(cell_inner, kernel, iterations=2)
+                    cell_inner_e = cv2.bitwise_not(cell_inner_e)
+                    text = pytesseract.image_to_string(
+                        cell_inner_e,
+                        config="--psm 10 -c tessedit_char_whitelist=123456789")
+                    text = int(text) if text.strip().isdigit() else 0
+
+            if(DEBUG):
+                cv2.imwrite(f"debug/{i}_{r}_{c}.png", cell_inner)
+
+            sudoku[r][c] = text
 
 
     return sudoku
 
-ac = 0
-cnt = 0
-failed = {i: 0 for i in range(11)}
-for i in range(3):
-    if i == 50 or i == 51:
-        continue
-
-    sudoku_pic = read_sudoku(SKEW_PATH / f"sudoku-data{i}.png")
-    sudoku_text = import_sudoku_text(TEXT_PATH / f"sudoku-data{i}.txt")
-
-    if(sudoku_pic == sudoku_text):
-        ac += 1
-        print(f"complete {i}")
-    else:
-        for l in range(9):
-            for c in range(9):
-                if(sudoku_pic[l][c] != sudoku_text[l][c]):
-                    if(sudoku_pic[l][c] not in failed):
-                        failed[10] += 1
-                    else:
-                        failed[sudoku_text[l][c]] += 1
-                    print(f"missed: {sudoku_pic[l][c]} at{i,l,c} actual: {sudoku_text[l][c]}")
-        
-    cnt += 1
-    print(f"{i}: Done... {ac}")
-    print(failed)
-    # print(failed)
-
-
-    print(sudoku_pic)
-    print(sudoku_text)
-
-
-
-print(f"{ac}/{cnt}") 

@@ -9,4 +9,4 @@ PICT_PATH_COURIER = Path("sudoku-picture-courier")
 SKEW_PATH = Path("sudoku-skew")
 
 #画像処理の確認用 /debug に全体の画像と切り取った画像を保存する
-DEBUG = True
+DEBUG = False

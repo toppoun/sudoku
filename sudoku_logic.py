@@ -1,6 +1,20 @@
 import itertools
 from utils import *
 
+"""
+・obvious_singles
+・obvious_pair
+・obvious_triple
+・hidden_singles
+・hidden_pair
+・hidden_triple
+・pointing_pair
+・pointing_triple
+・x_wing
+・y_wing
+・sword_fish
+の11個のロジックを実装した(2026/1/12(月)現在)
+"""
 
 def obvious_singles(sudoku,memo=None) -> bool:
     #メモの長さが1の物があったらそこに数字を確定させる。
@@ -521,6 +535,7 @@ def y_wing(sudoku, memo=None) -> bool:
                                 is_changed = True
 
     return is_changed
+
 
 def sword_fish(sudoku,memo=None) -> bool:
     if memo is None:

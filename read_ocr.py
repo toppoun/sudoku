@@ -6,15 +6,15 @@ import pytesseract
 from utils import *
 from config import *
 
-pytesseract.pytesseract.tesseract_cmd = (
-    r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-)
-
+"""
+数独の文字の読み取りにはOCR(Optical Character Recognition：光学文字認識)を用いた。
+前処理にはcv2を使った。
+"""
 
 
 # 数独読み取り
 
-def read_sudoku(image_path):
+def read_sudoku(image_path, i = None):
 
     img = cv2.imread(image_path)
 
@@ -103,35 +103,3 @@ def read_sudoku(image_path):
 
 
     return sudoku
-failed = {i: 0 for i in range(1,10)}
-
-##########フォント選択##########
-PICT_PATH = PICT_PATH_TIMES
-
-ac = 0
-cnt = 0
-for i in range(61):
-    if i == 50 or i == 51:
-        continue
-
-    sudoku_pic = read_sudoku(PICT_PATH / f"sudoku-data{i}.png")
-    sudoku_text = import_sudoku_text(TEXT_PATH / f"sudoku-data{i}.txt")
-
-    if(sudoku_pic == sudoku_text):
-        ac += 1
-    else:
-        for l in range(9):
-            for c in range(9):
-                if(sudoku_pic[l][c] != sudoku_text[l][c]):
-                    failed[sudoku_text[l][c]] += 1
-                    print(f"missed: {sudoku_pic[l][c]} at{i,l,c} actual: {sudoku_text[l][c]}")
-        print(failed)
-    cnt += 1
-    print(f"{i}: Done... {ac}")
-    
-
-
-# sudoku_pic = read_sudoku(SKEW_PATH / f"sudoku-data{0}.png")
-# sudoku_text = import_sudoku_text(TEXT_PATH / f"sudoku-data{1}.txt")
-# print(sudoku_pic)
-print(f"{ac}/{cnt}")

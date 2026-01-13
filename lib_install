@@ -1,1 +1,1 @@
-pip install opencv-contrib-python, numpy, opencv-contrib-python, pillow, pillow_heif, pytesseract
+pip install numpy opencv-contrib-python pillow pillow_heif pytesseract

@@ -196,8 +196,9 @@ def recog_by_warped(warped, i = None):
             cell_inner = cv2.resize(cell_inner, (64, 64))
 
             # cell_inner = cv2.bitwise_not(cell_inner)
+            #切り捨てレート設定
             ratio = cv2.countNonZero(cell_inner) / cell_inner.size
-            if ratio < 0.003:
+            if ratio < 0.01:
                 sudoku[r][c] = 0
                 continue
 

@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from read_skew import order_points, find_board,  four_point_transform, recog_by_warped
 from backtrack import solve_console
+from solve_hybrid import solve_by_hybrid
 
 
 
@@ -103,7 +104,8 @@ while True:
     if key == ord(' '):
         recognize = True
     if key == ord("s"):
-        solve_console(last_sudoku)
+        solve_by_hybrid(last_sudoku)
+        # solve_console(last_sudoku)
     if key == ord("c"):
         last_sudoku = None
     if key == ord('q'):

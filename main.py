@@ -3,6 +3,7 @@ import time
 
 from utils import *
 from sudoku_logic import *
+from backtrack import solve_console
 
 """
 テキストファイルから数独を読み込んでsudoku_logicで実装されているロジックによって数独を解く。
@@ -28,6 +29,7 @@ x_wing：8回
 y_wing：0回
 sword_fish：0回
 -----------------------
+実行時間：0.14792513847351074s
 """
 
 logic_functions = [
@@ -41,8 +43,9 @@ logic_functions = [
     ("pointing_triple", pointing_triple),
     ("x_wing", x_wing),
     ("y_wing", y_wing),
-    ("sword_fish", sword_fish)
+    ("sword_fish", sword_fish),
 ]
+
 
 
 def solve_by_human(data):
@@ -57,6 +60,7 @@ def solve_by_human(data):
                 changed = True
                 statistics[name] += 1
                 break
+    solve_console(sudoku_row)
 
     draw(sudoku_row,"Times New Roman")
 

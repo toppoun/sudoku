@@ -195,11 +195,13 @@ def recog_by_warped(warped, i = None):
             cell_inner = cv2.adaptiveThreshold(cell_inner, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
             cell_inner = cv2.resize(cell_inner, (64, 64))
 
-            # cell_inner = cv2.bitwise_not(cell_inner)
+            cell_inner = cv2.bitwise_not(cell_inner)
             #切り捨てレート設定
             ratio = cv2.countNonZero(cell_inner) / cell_inner.size
+            cell_inner = cv2.bitwise_not(cell_inner)
             if ratio < 0.01:
                 sudoku[r][c] = 0
+                # print("No digit detected.")
                 continue
 
             text = pytesseract.image_to_string(

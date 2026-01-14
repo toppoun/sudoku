@@ -110,12 +110,11 @@ def check_comp(sudoku):
     return True
 
 def is_ilegal(sudoku):
-    memo = create_memo(sudoku)
+    memo_ = create_memo(sudoku)
 
-    for val in memo.values():
+    for val in memo_.values():
         if(len(val) == 0):
             return True
-        
     return False
 
 def count_zero(sudoku):

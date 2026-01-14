@@ -81,9 +81,9 @@ def obvious_pair(sudoku,memo=None) -> bool:
 
 
 
-    for val in memo.values():
-        if(len(val) == 0):
-            print("0を検出,obvious pair")
+    # for val in memo.values():
+    #     if(len(val) == 0):
+    #         print("0を検出,obvious pair")
     
     return is_changed
 
@@ -120,9 +120,9 @@ def obvious_triple(sudoku,memo=None) -> bool:
                         if(len(memo[d_pos]) != before_len):
                             is_changed = True
 
-    for val in memo.values():
-        if(len(val) == 0):
-            print("0を検出,obvious triple")
+    # for val in memo.values():
+    #     if(len(val) == 0):
+    #         print("0を検出,obvious triple")
 
     return is_changed        
 
@@ -152,9 +152,9 @@ def hidden_singles(sudoku,memo=None) -> bool:
                     is_changed = True
     
  
-    for val in memo.values():
-        if(len(val) == 0):
-            print("0を検出 hidden single")
+    # for val in memo.values():
+    #     if(len(val) == 0):
+    #         print("0を検出 hidden single")
 
     return is_changed
 
@@ -198,9 +198,9 @@ def hidden_pair(sudoku,memo=None) -> bool:
                             is_changed = True
 
 
-    for val in memo.values():
-        if(len(val) == 0):
-            print("0を検出, hidden pair")
+    # for val in memo.values():
+    #     if(len(val) == 0):
+    #         print("0を検出, hidden pair")
     
     return is_changed
 
@@ -248,9 +248,9 @@ def hidden_triple(sudoku,memo=None) -> bool:
 
 
 
-    for val in memo.values():
-        if(len(val) == 0):
-            print("0を検出 hidden triple")
+    # for val in memo.values():
+    #     if(len(val) == 0):
+    #         print("0を検出 hidden triple")
 
     return is_changed
 

@@ -5,6 +5,7 @@ from copy import deepcopy
 from read_skew import order_points, find_board,  four_point_transform, recog_by_warped
 from backtrack import solve_console
 from solve_hybrid import solve_by_hybrid
+from utils import is_ilegal
 
 
 
@@ -55,7 +56,7 @@ def draw_grid(frame, rect):
 recognize = False          # space 押下フラグ
 last_sudoku = None         # 認識結果（固定）
 last_board_cnt = None      # 追尾用（毎フレーム更新）
-
+# failed = False             # 読み取り失敗フラグ
 
 cap = cv2.VideoCapture(0)
 
@@ -78,6 +79,10 @@ while True:
         rect = order_points(board_cnt.reshape(4, 2))
         draw_grid(display, rect)
 
+        # if failed:
+        #     cv2.putText(display, str("読み取り失敗"), (20, 10), cv2.FONT_HERSHEY_SIMPLEX, 5, (255, 0 ,0), 2, cv2.LINE_AA)
+
+
         # space が押された瞬間
         if recognize:
             try:
@@ -88,6 +93,7 @@ while True:
                 last_sudoku = recog_by_warped(warped)
                 initial_place = deepcopy(last_sudoku)
                 last_board_cnt = board_cnt.copy()
+                # failed = is_ilegal(last_sudoku)
 
             except Exception:
                 pass
@@ -103,11 +109,14 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     if key == ord(' '):
         recognize = True
+        # failed = False
     if key == ord("s"):
         solve_by_hybrid(last_sudoku)
         # solve_console(last_sudoku)
+
     if key == ord("c"):
         last_sudoku = None
+        falied = False
     if key == ord('q'):
         break
 

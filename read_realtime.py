@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from copy import deepcopy
 
-from read_skew import order_points, find_board,  four_point_transform, recog_by_warped
+from read_skew import order_points, find_board,  four_point_transform, recog_by_warped,read_sudoku
 from backtrack import solve_console
 from solve_hybrid import solve_by_hybrid
 from utils import is_ilegal
@@ -86,11 +86,11 @@ while True:
         # space が押された瞬間
         if recognize:
             try:
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                warped = four_point_transform(gray, board_cnt.reshape(4, 2))
-                _, warped = cv2.threshold(warped, 0, 255, cv2.THRESH_OTSU)
+                # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                # warped = four_point_transform(gray, board_cnt.reshape(4, 2))
+                # _, warped = cv2.threshold(warped, 0, 255, cv2.THRESH_OTSU)
 
-                last_sudoku = recog_by_warped(warped)
+                last_sudoku = recog_by_warped(read_sudoku(frame))
                 initial_place = deepcopy(last_sudoku)
                 last_board_cnt = board_cnt.copy()
                 # failed = is_ilegal(last_sudoku)

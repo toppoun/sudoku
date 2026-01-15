@@ -361,7 +361,7 @@ def x_wing(sudoku, memo=None) -> bool:
         memo = create_memo(sudoku)
 
     #まず行ごとに見てって候補がとなる数字のセルが2つの物を探す
-    #辞書２重でやばいわかりずらい。くそコードいつかなおす(直さない)
+    #辞書２重でやばいわかりずらい。
     #{行: {メモの数字: {メモの数字が入る位置} } }
     row_units = get_units("row")
     is_changed = False

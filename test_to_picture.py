@@ -27,18 +27,18 @@ def save_canvas_png(canvas, filename="sudoku.png"):
 
 
 
-for i in range(61):
+for i in range(3):
     if i == 50 or i == 51:
         continue
     canvas.delete("all")
 
     sudoku = import_sudoku_text(TEXT_PATH / f"sudoku-data{i}.txt")
-    draw(sudoku,"courier")
+    draw(sudoku,"HG創英角ポップ体")
 
     tk.update()
     time.sleep(0.2)
 
-    filename = PICT_PATH_COURIER / f"sudoku-data{i}.png"
+    filename = Path("sudoku-picture-arial") / f"sudoku-data{i}.png"
     save_canvas_png(canvas, filename)
 
 

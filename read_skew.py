@@ -201,7 +201,7 @@ def recog_by_warped(warped, i = None):
             cell_inner = cv2.bitwise_not(cell_inner)
             if ratio < 0.01:
                 sudoku[r][c] = 0
-                # print("No digit detected.")
+                # print(f"No digit detected. {r,c}")
                 continue
 
             text = pytesseract.image_to_string(

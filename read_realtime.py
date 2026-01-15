@@ -31,9 +31,9 @@ def draw_ar(frame, board_cnt, sudoku, initial_place):
             x, y = int(dst_pt[0]), int(dst_pt[1])
 
             if(initial_place[r][c] != 0):
-                color = (0, 0, 255)
-            else:
                 color = (0, 0, 0)
+            else:
+                color = (0, 0, 255)
             cv2.putText(frame, str(sudoku[r][c]), (x - 20, y + 10), cv2.FONT_HERSHEY_SIMPLEX, 2, color, 2, cv2.LINE_AA)
 
 

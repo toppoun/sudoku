@@ -138,13 +138,9 @@ def read_sudoku(image_path, i = None):
     img = cv2.imread(str(image_path))
     if img is None:
         return [[0]*9 for _ in range(9)]
-
-
     # 1. 盤面の輪郭を見つける
     board_cnt = find_board(img)
     # print(board_cnt)
-    
-    
     if board_cnt is None:
         print(f"盤面が見つかりませんでした: {image_path}")
         return [[0]*9 for _ in range(9)]
@@ -154,16 +150,15 @@ def read_sudoku(image_path, i = None):
     warped = four_point_transform(gray, board_cnt.reshape(4, 2))
 
     #2値化
-    
-
-
-
     if(DEBUG):
         cv2.imwrite(f"debug/warped_{i}.png", warped)
     
     return warped
 
-    
+def read_sudoku_from_cnt(frame, board_cnt):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    warped = four_point_transform(gray, board_cnt.reshape(4, 2))    
+    return warped
 
 
 def recog_by_warped(warped, i = None):

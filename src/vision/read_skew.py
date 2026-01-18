@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 import pytesseract
 
-from config import *
-from utils import *
+from src.config import *
+from src.utils import *
 
 """
 紙に書かれた数独の盤面を読み取るための関数。

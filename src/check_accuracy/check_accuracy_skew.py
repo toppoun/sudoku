@@ -1,4 +1,4 @@
-from read_skew import *
+from vision.read_skew import *
 
 """注意
 read_skewをリアルタイムように調整したため静止画の精度が悪い。

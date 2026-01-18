@@ -1,6 +1,6 @@
 from tkinter import Tk,Canvas
 
-from config import *
+from src.config import *
 
 """
 数独のロジックやmainで必要な関数

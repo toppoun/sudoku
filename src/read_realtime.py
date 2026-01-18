@@ -2,10 +2,10 @@ import cv2
 import numpy as np
 from copy import deepcopy
 
-from read_skew import order_points, find_board,  four_point_transform, recog_by_warped
-from backtrack import solve_console
-from solve_hybrid import solve_by_hybrid
-from utils import is_ilegal
+from src.vision.read_skew import order_points, find_board,  four_point_transform, recog_by_warped
+from src.solver.backtrack import solve_console
+from src.solver.solve_hybrid import solve_by_hybrid
+from src.utils import is_ilegal
 
 
 

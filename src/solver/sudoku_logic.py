@@ -1,5 +1,5 @@
 import itertools
-from utils import *
+from src.utils import *
 
 """
 ・obvious_singles

@@ -1,6 +1,6 @@
-from utils import *
-from sudoku_logic import *
-from backtrack import solve_console
+from src.utils import *
+from src.solver.sudoku_logic import *
+from src.solver.backtrack import solve_console
 
 logic_functions = [
     ("obvious_singles", obvious_singles),

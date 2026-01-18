@@ -1,4 +1,4 @@
-from read_ocr import *
+from vision.read_ocr import *
 
 """フォント選択
 PICT_PATH_TIMES: Times New Roman (明朝体っぽい)

@@ -3,8 +3,8 @@ from tkinter import *
 from PIL import ImageGrab
 from pathlib import Path
 
-from utils import *
-from config import *
+from src.utils import *
+from src.config import *
 
 """
 テキストデータの盤面をtkinterで描画しそれを保存する。

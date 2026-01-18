@@ -3,8 +3,8 @@ import cv2
 import numpy as np
 import pytesseract
 
-from utils import *
-from config import *
+from src.utils import *
+from src.config import *
 
 """
 数独の文字の読み取りにはOCR(Optical Character Recognition：光学文字認識)を用いた。

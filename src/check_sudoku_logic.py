@@ -1,9 +1,9 @@
 import tkinter.simpledialog as simpledialog
 import time
 
-from utils import *
-from sudoku_logic import *
-from backtrack import solve_console
+from src.utils import *
+from src.solver.sudoku_logic import *
+from src.solver.backtrack import solve_console
 
 """
 テキストファイルから数独を読み込んでsudoku_logicで実装されているロジックによって数独を解く。
@@ -60,7 +60,7 @@ def solve_by_human(data):
                 changed = True
                 statistics[name] += 1
                 break
-    solve_console(sudoku_row)
+    # solve_console(sudoku_row)
 
     draw(sudoku_row,"Times New Roman")
 

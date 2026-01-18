@@ -1,7 +1,9 @@
 from src.utils import *
 from src.solver.sudoku_logic import *
 from src.solver.backtrack import solve_console
-
+"""
+sudoku_logicで実装したロジックで解き切れなったものをbacktrackで解く。初めからbacktrackで解くよりもはるかに速い。
+"""
 logic_functions = [
     ("obvious_singles", obvious_singles),
     ("obvious_pair", obvious_pair),

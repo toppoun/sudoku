@@ -9,6 +9,7 @@ from src.config import *
 """
 数独の文字の読み取りにはOCR(Optical Character Recognition：光学文字認識)を用いた。
 前処理にはcv2を使った。
+この処理はきれいな画像(tkinterのスクショなど)用でカメラで撮った写真の処理はsrc.vision.read_skew
 """
 
 

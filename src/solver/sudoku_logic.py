@@ -2,6 +2,7 @@ import itertools
 from src.utils import *
 
 """
+人間が数独を解くときの手法で解くロジックの実装
 ・obvious_singles
 ・obvious_pair
 ・obvious_triple

@@ -1,5 +1,8 @@
 import time
 start = time.time()
+"""
+バックトラックで数独を解く。
+"""
 
 def import_sudoku(num): #テキストファイルから数独データを取得
     with open(f"sudoku-data{num}.txt") as file:

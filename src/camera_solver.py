@@ -7,7 +7,12 @@ from src.solver.backtrack import solve_console
 from src.solver.solve_hybrid import solve_by_hybrid
 from src.utils import is_ilegal
 
-
+"""
+カメラを起動して数独の盤面を読み取り、"spaceキー"を押すことで認識する。正しく数字が認識されていることを確認して
+"sキー"を押すと数独を解き、それを盤面に合わせて描画する。
+"cキー"を押すとリセットできる。
+"qキー"を押すとカメラを閉じる。
+"""
 
 def draw_ar(frame, board_cnt, sudoku, initial_place):
     rect = order_points(board_cnt.reshape(4, 2))

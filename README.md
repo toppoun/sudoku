@@ -9,6 +9,7 @@
 ※ pytesseract を使用するため，別途 Tesseract OCR のインストールが必要
 
 ---実行方法---
+
 sudoku/ で以下のコマンドで実行お願いします。
 
 python -m src.backtrack_solver  # バックトラックによる機械的な解法

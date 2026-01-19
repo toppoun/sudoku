@@ -6,7 +6,7 @@
 の3つを実装した。  
   
 ## 実行方法
-sudoku/ で以下のコマンドで実行お願いします。  
+sudoku/ ディレクトリで、以下のコマンドを実行してください。
 - python -m src.backtrack_solver # バックトラックによる機械的な解法
 - python -m src.human_solver      # 人間が用いる解法ロジックによる解法
 - python -m src.camera_solver     # カメラ入力による盤面認識を用いた解法

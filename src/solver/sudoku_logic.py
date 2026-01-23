@@ -17,7 +17,7 @@ from src.utils import *
 の11個のロジックを実装した(2026/1/12(月)現在)
 """
 
-def obvious_singles(sudoku,memo=None) -> bool:
+def obvious_singles(sudoku,memo=None):
     #メモの長さが1の物があったらそこに数字を確定させる。
     is_changed = False
 
@@ -38,18 +38,14 @@ def obvious_singles(sudoku,memo=None) -> bool:
                 memo[cell].remove(num)
                 is_changed = True
 
-
-
-
     for val in memo.values():
         if(len(val) == 0):
             print("0を検出 obvious single")
-
     
     return is_changed
 
 
-def obvious_pair(sudoku,memo=None) -> bool:
+def obvious_pair(sudoku,memo=None):
     if(memo is None):
         memo = create_memo(sudoku)
     memo_len2 = {k: v for k, v in memo.items() if len(v) == 2}
@@ -89,7 +85,7 @@ def obvious_pair(sudoku,memo=None) -> bool:
     return is_changed
 
 
-def obvious_triple(sudoku,memo=None) -> bool:
+def obvious_triple(sudoku,memo=None):
     if(memo is None):
         memo = create_memo(sudoku)
     memo_len2or3 = {k: v for k, v in memo.items() if len(v) == 2 or len(v) == 3}
@@ -128,7 +124,7 @@ def obvious_triple(sudoku,memo=None) -> bool:
     return is_changed        
 
 
-def hidden_singles(sudoku,memo=None) -> bool:
+def hidden_singles(sudoku,memo=None):
     if(memo is None):
         memo = create_memo(sudoku)
 
@@ -160,7 +156,7 @@ def hidden_singles(sudoku,memo=None) -> bool:
     return is_changed
 
 
-def hidden_pair(sudoku,memo=None) -> bool:
+def hidden_pair(sudoku,memo=None):
     if memo is None:
         memo = create_memo(sudoku)
     units = get_units()
@@ -206,7 +202,7 @@ def hidden_pair(sudoku,memo=None) -> bool:
     return is_changed
 
 
-def hidden_triple(sudoku,memo=None) -> bool:
+def hidden_triple(sudoku,memo=None):
     if memo is None:
         memo = create_memo(sudoku)
     units = get_units()
@@ -256,7 +252,7 @@ def hidden_triple(sudoku,memo=None) -> bool:
     return is_changed
 
 
-def pointing_pair(sudoku, memo=None) -> bool:
+def pointing_pair(sudoku, memo=None):
     if memo is None:
         memo = create_memo(sudoku)
 
@@ -311,7 +307,7 @@ def pointing_pair(sudoku, memo=None) -> bool:
     return is_changed
 
 
-def pointing_triple(sudoku,memo=None) -> bool:
+def pointing_triple(sudoku,memo=None):
     if memo is None:
         memo = create_memo(sudoku)
 
@@ -357,7 +353,7 @@ def pointing_triple(sudoku,memo=None) -> bool:
     return is_changed
 
 
-def x_wing(sudoku, memo=None) -> bool:
+def x_wing(sudoku, memo=None):
     if memo is None:
         memo = create_memo(sudoku)
 
@@ -441,7 +437,7 @@ def x_wing(sudoku, memo=None) -> bool:
     return is_changed
     
 
-def y_wing(sudoku, memo=None) -> bool:
+def y_wing(sudoku, memo=None):
     if memo is None:
         memo = create_memo(sudoku)
 
@@ -538,7 +534,7 @@ def y_wing(sudoku, memo=None) -> bool:
     return is_changed
 
 
-def sword_fish(sudoku,memo=None) -> bool:
+def sword_fish(sudoku,memo=None):
     if memo is None:
         memo = create_memo(sudoku)
     row_units = get_units("row")

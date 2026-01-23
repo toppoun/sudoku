@@ -18,9 +18,11 @@
 ## 要件 (Requirements)
 - Python 3.x
 - Tesseract OCR Engine(**必須**)
-  - ***Pythonライブラリだけでなく、OSへのOCRエンジンのインストールが必要です***
+  - **Pythonライブラリだけでなく、OSへのOCRエンジンのインストールが必要です**
 
-Python ライブラリのインストール
+***AR機能（カメラ入力）については、MacBook Air M2 でのみ動作確認を行っています。***
+
+Python ライブラリのインストール  
 pip install numpy opencv-contrib-python pytesseract
   
 ## 実行方法(Usage)

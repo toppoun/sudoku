@@ -17,8 +17,8 @@
 
 ## 要件 (Requirements)
 - Python 3.x
-- Tesseract OCR Engine(必須)
-  - Pythonライブラリだけでなく、OSへのOCRエンジンのインストールが必要です
+- Tesseract OCR Engine(**必須**)
+  - ***Pythonライブラリだけでなく、OSへのOCRエンジンのインストールが必要です***
 
 Python ライブラリのインストール
 pip install numpy opencv-contrib-python pytesseract
